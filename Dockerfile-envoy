@@ -1,3 +1,3 @@
-FROM envoyproxy/envoy-dev:c59f45ff86d54187e436be5745ec1f51251ea54d
+FROM envoyproxy/envoy-dev:1221cce68ae973fcdea38f27e6f017e492214e28
 
 CMD /usr/local/bin/envoy -c /etc/envoy/postgres.yaml -l trace
