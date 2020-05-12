@@ -1,0 +1,3 @@
+FROM envoyproxy/envoy-dev:c59f45ff86d54187e436be5745ec1f51251ea54d
+
+CMD /usr/local/bin/envoy -c /etc/envoy/postgres.yaml -l trace

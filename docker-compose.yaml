@@ -1,0 +1,45 @@
+version: "3.7"
+services:
+
+  postgres:
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile-envoy
+    volumes:
+      - ./postgres.yaml:/etc/envoy/postgres.yaml
+    expose:
+      - "1999"
+      - "8001"
+    ports:
+      - "1999:1999"
+      - "8001:8001"
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus:/etc
+    expose:
+      - "9090"
+    ports:
+      - "9090:9090"
+    command: "--config.file=/etc/config.yaml"
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - ./grafana:/etc/grafana
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+
+  traffic:
+    image: postgres:12
+    volumes:
+      - ./scripts:/etc/scripts
+    command: /etc/scripts/execute_sql.sh /etc/scripts/errors_and_warnings.sql > /dev/null 2>&1 &; /etc/scripts/execute_sql.sh /etc/scripts/transaction_explicit.sql.sql > /dev/null 2>&1 &; i/etc/scripts/execute_sql.sh /etc/scripts/transaction_implicit.sql.sql > /dev/null 2>&1
