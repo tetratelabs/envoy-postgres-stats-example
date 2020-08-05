@@ -7,9 +7,7 @@ services:
       POSTGRES_PASSWORD: postgres
 
   proxy:
-    build:
-      context: .
-      dockerfile: Dockerfile-envoy
+    image: envoyproxy/envoy:v1.15-latest
     volumes:
       - ./postgres.yaml:/etc/envoy/postgres.yaml
     expose:
@@ -18,6 +16,7 @@ services:
     ports:
       - "1999:1999"
       - "8001:8001"
+    command: "/usr/local/bin/envoy -c /etc/envoy/postgres.yaml -l trace"
 
   prometheus:
     image: prom/prometheus:latest
