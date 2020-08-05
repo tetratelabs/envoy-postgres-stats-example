@@ -41,4 +41,4 @@ services:
     image: postgres:12
     volumes:
       - ./scripts:/etc/scripts
-    command: /etc/scripts/execute_sql.sh /etc/scripts/errors_and_warnings.sql > /dev/null 2>&1 &; /etc/scripts/execute_sql.sh /etc/scripts/transaction_explicit.sql.sql > /dev/null 2>&1 &; i/etc/scripts/execute_sql.sh /etc/scripts/transaction_implicit.sql.sql > /dev/null 2>&1
+    command: /etc/scripts/traffic.sh > /dev/null 2>&1
