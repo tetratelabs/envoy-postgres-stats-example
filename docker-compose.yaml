@@ -3,11 +3,13 @@ services:
 
   postgres:
     image: postgres:12
+    container_name: postgres
     environment:
       POSTGRES_PASSWORD: postgres
 
-  proxy:
+  envoy:
     image: envoyproxy/envoy:v1.15-latest
+    container_name: envoy
     volumes:
       - ./postgres.yaml:/etc/envoy/postgres.yaml
     expose:
@@ -20,6 +22,7 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
+    container_name: prometheus
     volumes:
       - ./prometheus:/etc
     expose:
@@ -30,6 +33,7 @@ services:
 
   grafana:
     image: grafana/grafana
+    container_name: grafana
     volumes:
       - ./grafana:/etc/grafana
     expose:
@@ -39,6 +43,7 @@ services:
 
   traffic:
     image: postgres:12
+    container_name: traffic
     volumes:
       - ./scripts:/etc/scripts
     command: /etc/scripts/traffic.sh > /dev/null 2>&1

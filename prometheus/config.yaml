@@ -5,6 +5,6 @@ scrape_configs:
     scrape_interval: 5s
     metrics_path: /stats/prometheus
     static_configs:
-      - targets: ['proxy:8001']
+      - targets: ['envoy:8001']
         labels:
           group: 'services'

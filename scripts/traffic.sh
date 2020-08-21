@@ -6,7 +6,7 @@
 # - running TPC-B transactions (SELECT-only)
 # - running TPC-B transactions (Read/Write)
 #
-CONNSTR='postgresql://postgres@proxy:1999/postgres?sslmode=disable'
+CONNSTR='postgresql://postgres@envoy:1999/postgres?sslmode=disable'
 PROTOCOLS='simple extended prepared'
 PWD=$(dirname $0)
 
