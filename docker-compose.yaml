@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: postgres
 
   envoy:
-    image: envoyproxy/envoy:v1.15-latest
+    image: envoyproxy/envoy-dev:latest
     container_name: envoy
     volumes:
       - ./postgres.yaml:/etc/envoy/postgres.yaml
@@ -18,7 +18,7 @@ services:
     ports:
       - "1999:1999"
       - "8001:8001"
-    command: "/usr/local/bin/envoy -c /etc/envoy/postgres.yaml -l trace"
+    command: "/usr/local/bin/envoy -c /etc/envoy/postgres.yaml -l debug"
 
   prometheus:
     image: prom/prometheus:latest
