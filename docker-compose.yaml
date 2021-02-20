@@ -3,13 +3,13 @@ services:
 
   postgres:
     image: postgres:12
+    container_name: postgres
     environment:
       POSTGRES_PASSWORD: postgres
 
-  proxy:
-    build:
-      context: .
-      dockerfile: Dockerfile-envoy
+  envoy:
+    image: envoyproxy/envoy-dev:latest
+    container_name: envoy
     volumes:
       - ./postgres.yaml:/etc/envoy/postgres.yaml
     expose:
@@ -18,9 +18,11 @@ services:
     ports:
       - "1999:1999"
       - "8001:8001"
+    command: "/usr/local/bin/envoy -c /etc/envoy/postgres.yaml -l debug"
 
   prometheus:
     image: prom/prometheus:latest
+    container_name: prometheus
     volumes:
       - ./prometheus:/etc
     expose:
@@ -31,6 +33,7 @@ services:
 
   grafana:
     image: grafana/grafana
+    container_name: grafana
     volumes:
       - ./grafana:/etc/grafana
     expose:
@@ -40,6 +43,7 @@ services:
 
   traffic:
     image: postgres:12
+    container_name: traffic
     volumes:
       - ./scripts:/etc/scripts
-    command: /etc/scripts/execute_sql.sh /etc/scripts/errors_and_warnings.sql > /dev/null 2>&1 &; /etc/scripts/execute_sql.sh /etc/scripts/transaction_explicit.sql.sql > /dev/null 2>&1 &; i/etc/scripts/execute_sql.sh /etc/scripts/transaction_implicit.sql.sql > /dev/null 2>&1
+    command: /etc/scripts/traffic.sh > /dev/null 2>&1
